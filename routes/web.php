@@ -8,3 +8,4 @@ Route::get('/ajouter', [ArticleController::class, 'ajouter_article']);
 Route::post('/ajouter/traitement', [ArticleController::class, 'ajouter_article_traitement']);
 Route::get('/modifier/{id}', [ArticleController::class, 'modifier_article']);
 Route::put('/modifier/{id}', [ArticleController::class, 'modifier_article_traitement']);
+Route::delete('/supprimer/{id}', [ArticleController::class, 'supprimer_article']);

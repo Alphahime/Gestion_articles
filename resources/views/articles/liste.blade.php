@@ -17,7 +17,9 @@
             <div class="card-body">
                 <h2 class="card-title">{{ $article->nom }}</h2>
                 <p class="card-text">{{ $article->description }}</p>
-                <img src="{{ Storage::url('public/images/'. $article->image) }}" alt="{{ $article->nom }}" class="img-fluid">
+                <img src="{{ asset('storage/' . $article->image) }}" alt="{{ $article->nom }}" class="img-fluid">
+                <p><strong>Status :</strong> {{ $article->status ? 'À la une' : 'Ancien' }}</p>
+                <p><strong>Date de publication :</strong> {{ \Carbon\Carbon::parse($article->date_creation)->format('d/m/Y') }}</p>
                 <div class="mt-3">
                     <a href="/modifier/{{ $article->id }}" class="btn btn-warning">Modifier</a>
                     <form action="/supprimer/{{ $article->id }}" method="post" style="display:inline-block;">

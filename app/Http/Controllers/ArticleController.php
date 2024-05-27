@@ -15,28 +15,26 @@ class ArticleController extends Controller
      
     return view('articles.liste', compact('articles'));
     }
-    public function ajouter_article_traitement(Request $request)
-    {
-        // Valider les données du formulaire
-        $request->validate([
-           'nom' => 'required',
-           'description' => 'required',
-           'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-       ]);
-    
-        $article = new Article();
-    
-        $article->nom = $request->nom;
-        $article->description = $request->description;
-        $article->date_creation = now(); 
-        $article->status = '0'; 
-        $article->image = $request->file('image')->store('public/images'); 
+  public function ajouter_article_traitement(Request $request)
+{
+    $request->validate([
+        'nom' => 'required',
+        'description' => 'required',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $article->save();
-    
-        return redirect('/ajouter')->with('status', 'Article ajouté avec succès.');
-    }
-    
+    $article = new Article();
+
+    $article->nom = $request->nom;
+    $article->description = $request->description;
+    $article->date_creation = now(); 
+    $article->status = '0'; 
+    $article->image = $request->file('image')->store('images', 'public'); 
+
+    $article->save();
+
+    return redirect('/ajouter')->with('status', 'Article ajouté avec succès.');
+}
    public function ajouter_article()
 {
     return view('articles.ajouter');
@@ -69,7 +67,7 @@ public function modifier_article(Request $request, $id)
             
         
             if ($request->hasFile('image')) {
-                $article->image = $request->file('image')->store('images');
+                $article->image = $request->file('image')->store('public/images');
             }
 
            
@@ -81,4 +79,16 @@ public function modifier_article(Request $request, $id)
             return redirect()->back()->with('error', 'Une erreur est survenue lors de la modification de l\'article.');
         }
     }
+
+    public function supprimer_article($id)
+{
+    try {
+        $article = Article::findOrFail($id);
+        $article->delete();
+        return redirect('/articles')->with('success', 'Article supprimé avec succès.');
+    } catch (\Exception $e) {
+        return redirect('/articles')->with('error', 'Une erreur est survenue lors de la suppression de l\'article.');
+    }
+}
+
 }
