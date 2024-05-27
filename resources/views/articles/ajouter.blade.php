@@ -11,11 +11,11 @@
     <div class="container">
         <h1 class="mt-4">Ajouter un article</h1>
         @if(session('status'))
-        <div class="alert alert-success"></div>
-        {{session('status')}}
-      @endif
-        <form action="/ajouter/traitement" method="post" class="mt-4">
-
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+        <form action="/ajouter/traitement" method="post" enctype="multipart/form-data" class="mt-4">
             @csrf
             <div class="form-group">
                 <label for="nom">Nom de l'article:</label>
@@ -26,10 +26,11 @@
                 <textarea id="description" name="description" class="form-control" required></textarea>
             </div>
             <div class="form-group">
-                <label for="image">URL de l'image:</label>
-                <input type="text" id="image" name="image" class="form-control" required>
+                <label for="image">Image de l'article:</label>
+                <input type="file" id="image" name="image" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Ajouter</button>
+            <a href="/articles" class="btn btn-secondary">Revenir à la liste des étudiants</a>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
